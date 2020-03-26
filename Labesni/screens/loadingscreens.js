@@ -6,8 +6,8 @@ export default class loadingscreens extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-    <Text>Loading</Text>
-
+    <Text>9a3ed y loadi</Text>
+                <ActivityIndicator size="large"></ActivityIndicator>
             </View>
     );
     }
