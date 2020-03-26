@@ -3,10 +3,11 @@ import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
 import * as firebase from 'firebase';
 export default class loadingscreens extends React.Component {
 
+
     componentDidMount() {
         firebase.auth().onAuthStateChanged(user => {
             this.props.navigation.navigate(user ? "App" : "Auth");
-        }); 
+        });
     }
     render() {
         return (
