@@ -3,7 +3,7 @@ import {View, Text, ActivityIndicator, StyleSheet, TextInput, TouchableOpacity, 
 import * as firebase from 'firebase';
 export default class LoginScreen extends React.Component {
     static navigationOptions = {
-        header: null
+        headerShown:false
     };
 
     state = {
@@ -26,9 +26,19 @@ export default class LoginScreen extends React.Component {
                 <StatusBar barStyle="light-content"></StatusBar>
                 <Image
                     source={require("../assets/authHeader.png")}
-                    style={{ marginTop: -176, marginLeft: -50 }}
+                    style={{ marginTop: -186, marginLeft: -40 }}
                 ></Image>
-                <Text style={styles.greeting}>{`Hello again.\nWelcome back.`}</Text>
+
+                <Image
+                    source={require("../assets/authFooter.png")}
+                    style={{ position: "absolute", bottom: -325, right: -225 }}
+                ></Image>
+
+                <Image
+                    source={require("../assets/loginLogo.png")}
+                    style={{ marginTop: -120, alignSelf: "center" }}
+                ></Image>
+
 
                 <View style={styles.errorMessageee}>
                     {this.state.errorMessage && <Text style={styles.error}>{this.state.errorMessage}</Text>}
@@ -58,10 +68,10 @@ export default class LoginScreen extends React.Component {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    style={{ alignSelf: "center", marginTop: 32 }}
+                    style={{ alignSelf: "center" }}
                     onPress={() => this.props.navigation.navigate("Register")}
                 >
-                    <Text style={{ color: "#414959", fontSize: 13 }}>
+                    <Text style={{ color: "#414959", fontSize: 13}}>
                         Jdid fil application donc ? <Text style={{ fontWeight: "500", color: "#E9446A" }}>Sign up</Text>
                     </Text>
                 </TouchableOpacity>
@@ -87,7 +97,7 @@ const styles = StyleSheet.create({
 
     },
     greeting: {
-        marginTop: 32,
+        marginTop: -32,
         fontSize: 18,
         fontWeight: "400",
         textAlign: "center"
