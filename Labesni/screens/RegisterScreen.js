@@ -1,7 +1,12 @@
 import React from "react";
-import {View, Text, ActivityIndicator, StyleSheet, TextInput, TouchableOpacity} from "react-native";
+import {View, Text, ActivityIndicator, StyleSheet, TextInput, TouchableOpacity, Image, StatusBar, LayoutAnimation} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import * as firebase from 'firebase';
 export default class RegisterScreen extends React.Component {
+    static navigationOptions = {
+        headerShown: false
+    };
+
     state = {
         name: "",
         email: "",
@@ -25,7 +30,20 @@ export default class RegisterScreen extends React.Component {
         return (
 
             <View style={styles.container}>
-                <Text style={styles.greeting}>{`Hello .\nLezemek tsajeeel hata tebda`}</Text>
+                <StatusBar barStyle="light-content"></StatusBar>
+
+
+                <Image
+                    source={require("../assets/authFooter.png")}
+                    style={{ position: "absolute", bottom: -105, right: -225 }}
+                ></Image>
+
+                <TouchableOpacity style={styles.back} onPress={() => this.props.navigation.goBack()}>
+                    <Ionicons name="ios-arrow-round-back" size={50} color="#FFF"></Ionicons>
+                </TouchableOpacity>
+
+
+                <Text style={styles.greeting}>{`Hello .\n`}</Text>
 
                 <View style={styles.errorMessageee}>
                     {this.state.errorMessage && <Text style={styles.error}>{this.state.errorMessage}</Text>}
@@ -135,6 +153,17 @@ const styles = StyleSheet.create({
         fontSize: 13,
         fontWeight: "600",
         textAlign: "center"
+    },
+    back: {
+        position: "absolute",
+        top: 48,
+        left: 32,
+        width: 50,
+        height: 45,
+        borderRadius: 20,
+        backgroundColor: "rgba(21, 22, 48, 0.1)",
+        alignItems: "center",
+        justifyContent: "center"
     }
 
 

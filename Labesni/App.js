@@ -28,8 +28,9 @@ const AppStack = createStackNavigator({
 });
 
 const AuthStack = createStackNavigator({
-    Login:LoginScreen,
-    Register : RegisterScreen
+    Register : RegisterScreen,
+    Login:LoginScreen
+
 });
 
 export default createAppContainer(

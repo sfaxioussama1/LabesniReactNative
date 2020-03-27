@@ -20,6 +20,7 @@ export default class LoginScreen extends React.Component {
             .catch(error => this.setState({ errorMessage: error.message }));
     };
     render() {
+        LayoutAnimation.easeInEaseOut();
         return (
 
             <View style={styles.container}>
@@ -68,7 +69,7 @@ export default class LoginScreen extends React.Component {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    style={{ alignSelf: "center" }}
+                    style={{ alignSelf: "center",marginTop: 12 }}
                     onPress={() => this.props.navigation.navigate("Register")}
                 >
                     <Text style={{ color: "#414959", fontSize: 13}}>
