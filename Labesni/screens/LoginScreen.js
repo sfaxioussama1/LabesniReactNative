@@ -1,7 +1,11 @@
 import React from "react";
-import {View, Text, ActivityIndicator, StyleSheet, TextInput, TouchableOpacity} from "react-native";
+import {View, Text, ActivityIndicator, StyleSheet, TextInput, TouchableOpacity, Image, StatusBar, LayoutAnimation} from "react-native";
 import * as firebase from 'firebase';
 export default class LoginScreen extends React.Component {
+    static navigationOptions = {
+        headerShown:false
+    };
+
     state = {
         email: "",
         password: "",
@@ -16,10 +20,26 @@ export default class LoginScreen extends React.Component {
             .catch(error => this.setState({ errorMessage: error.message }));
     };
     render() {
+        LayoutAnimation.easeInEaseOut();
         return (
 
             <View style={styles.container}>
-                <Text style={styles.greeting}>{`Hello again.\nWelcome back.`}</Text>
+                <StatusBar barStyle="light-content"></StatusBar>
+                <Image
+                    source={require("../assets/authHeader.png")}
+                    style={{ marginTop: -186, marginLeft: -40 }}
+                ></Image>
+
+                <Image
+                    source={require("../assets/authFooter.png")}
+                    style={{ position: "absolute", bottom: -325, right: -225 }}
+                ></Image>
+
+                <Image
+                    source={require("../assets/loginLogo.png")}
+                    style={{ marginTop: -120, alignSelf: "center" }}
+                ></Image>
+
 
                 <View style={styles.errorMessageee}>
                     {this.state.errorMessage && <Text style={styles.error}>{this.state.errorMessage}</Text>}
@@ -49,10 +69,10 @@ export default class LoginScreen extends React.Component {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    style={{ alignSelf: "center", marginTop: 32 }}
+                    style={{ alignSelf: "center",marginTop: 12 }}
                     onPress={() => this.props.navigation.navigate("Register")}
                 >
-                    <Text style={{ color: "#414959", fontSize: 13 }}>
+                    <Text style={{ color: "#414959", fontSize: 13}}>
                         Jdid fil application donc ? <Text style={{ fontWeight: "500", color: "#E9446A" }}>Sign up</Text>
                     </Text>
                 </TouchableOpacity>
@@ -78,7 +98,7 @@ const styles = StyleSheet.create({
 
     },
     greeting: {
-        marginTop: 32,
+        marginTop: -32,
         fontSize: 18,
         fontWeight: "400",
         textAlign: "center"
