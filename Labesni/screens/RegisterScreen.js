@@ -42,6 +42,19 @@ export default class RegisterScreen extends React.Component {
                     <Ionicons name="ios-arrow-round-back" size={50} color="#FFF"></Ionicons>
                 </TouchableOpacity>
 
+                <View style={{ position: "absolute", top: 24, alignItems: "center", width: "100%" }}>
+                    <TouchableOpacity style={styles.avatar}>
+                        <Ionicons
+                            name="ios-add"
+                            size={30}
+                            color="#FFF"
+                            style={{ marginTop: 2, marginLeft: 2 }}
+                        ></Ionicons>
+                    </TouchableOpacity>
+                </View>
+
+
+
 
                 <Text style={styles.greeting}>{`Hello .\n`}</Text>
 
@@ -125,7 +138,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 30
     },
     form: {
-        marginBottom: 48,
+        marginBottom: 38,
         marginHorizontal: 30
     },
     inputTitle: {
@@ -164,6 +177,16 @@ const styles = StyleSheet.create({
         backgroundColor: "rgba(21, 22, 48, 0.1)",
         alignItems: "center",
         justifyContent: "center"
+    },
+
+    avatar: {
+        width: 100,
+        height: 100,
+        backgroundColor: "#E1E2E6",
+        borderRadius: 50,
+        marginTop: 48,
+        justifyContent: "center",
+        alignItems: "center"
     }
 
 
