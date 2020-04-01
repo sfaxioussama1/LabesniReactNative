@@ -14,7 +14,7 @@ class Fire {
         };
         firebase.initializeApp(firebaseConfig);
 
-        firebase.initializeApp(FirebaseKeys);
+       
     }
     get firestore() {
         return firebase.firestore();
