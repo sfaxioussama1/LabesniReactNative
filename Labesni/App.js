@@ -14,6 +14,11 @@ import PostScreen from "./screens/PostScreen";
 import NotificationScreen from "./screens/NotificationScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import * as firebase from 'firebase';
+import {decode, encode} from 'base-64'
+
+if (!global.btoa) {  global.btoa = encode }
+
+if (!global.atob) { global.atob = decode }
 
 const firebaseConfig = {
     apiKey: "AIzaSyC9FemRYyjg09dAZ2K6Qf0q_IoKDlLkcUw",
@@ -99,7 +104,7 @@ const AppContainer = createStackNavigator(
     {
         mode: "modal",
         headerMode: "none",
-        initialRouteName: "postModal"
+
     }
 );
 
