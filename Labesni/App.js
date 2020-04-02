@@ -19,7 +19,7 @@ import {decode, encode} from 'base-64'
 if (!global.btoa) {  global.btoa = encode }
 
 if (!global.atob) { global.atob = decode }
-
+// héthya firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyC9FemRYyjg09dAZ2K6Qf0q_IoKDlLkcUw",
     authDomain: "projetlabesni.firebaseapp.com",
