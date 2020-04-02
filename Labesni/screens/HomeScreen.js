@@ -1,13 +1,13 @@
 import React from "react";
 import {View, Text, StyleSheet, Image, FlatList} from "react-native";
 import * as firebase from "firebase";
-import { Ionicons } from "@expo/vector-icons";
+import {Ionicons} from "@expo/vector-icons";
+import moment from "moment";
 posts = [
     {
         id: "1",
         name: "Amir 1",
-        text:
-            "héthya test1",
+        text: "héthya test1",
         timestamp: 1569109273726,
         avatar: require("../assets/tempAvatar.jpg"),
         image: require("../assets/tempImage1.jpg")
@@ -15,8 +15,7 @@ posts = [
     {
         id: "2",
         name: "Amir 2",
-        text:
-            "héthya test2",
+        text: "héthya test2",
         timestamp: 1569109273726,
         avatar: require("../assets/tempAvatar.jpg"),
         image: require("../assets/tempImage2.jpg")
@@ -24,8 +23,7 @@ posts = [
     {
         id: "3",
         name: "Amir 3",
-        text:
-            "héthya test3",
+        text: "héthya test3",
         timestamp: 1569109273726,
         avatar: require("../assets/tempAvatar.jpg"),
         image: require("../assets/tempImage3.jpg")
@@ -33,14 +31,12 @@ posts = [
     {
         id: "4",
         name: "Amir 4",
-        text:
-            "héthya test4",
+        text: "héthya test4",
         timestamp: 1569109273726,
         avatar: require("../assets/tempAvatar.jpg"),
         image: require("../assets/tempImage4.jpg")
     }
 ];
-
 
 
 export default class HomeScreen extends React.Component {
@@ -56,12 +52,30 @@ export default class HomeScreen extends React.Component {
 
     renderPost = post => {
         return (
-            <View>
+            <View style={styles.labseniItem}>
+                <Image source={post.avatar} style={styles.avatar}/>
+                <View style={{ flex: 1 }}>
+                    <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                        <View>
+                            <Text style={styles.name}>{post.name}</Text>
+                            <Text style={styles.timestamp}>{moment(post.timestamp).fromNow()}</Text>
+                        </View>
 
-                <Text>I'm a POST</Text>
+                        <Ionicons name="ios-more" size={24} color="#73788B"/>
+                    </View>
+                    <Text style={styles.post}>{post.text}</Text>
+                    <Image source={post.image} style={styles.postImage} resizeMode="cover" />
+                    <View style={{ flexDirection: "row" }}>
+                        <Ionicons name="ios-heart-empty" size={24} color="#73788B" style={{ marginRight: 16 }} />
+                        <Ionicons name="ios-chatboxes" size={24} color="#73788B" />
+                    </View>
+
+                </View>
+
             </View>
         );
     };
+
     render() {
         // LayoutAnimation.easeInEaseOut();
 
@@ -107,7 +121,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: "#EBECF4",
         shadowColor: "#454D65",
-        shadowOffset: { height: 5 },
+        shadowOffset: {height: 5},
         shadowRadius: 15,
         shadowOpacity: 0.2,
         zIndex: 10
@@ -119,6 +133,39 @@ const styles = StyleSheet.create({
     la: {
         marginHorizontal: 16
     },
-
+    labseniItem: {
+        backgroundColor: "#FFF",
+        borderRadius: 5,
+        padding: 8,
+        flexDirection: "row",
+        marginVertical: 8
+    },
+    avatar: {
+        width: 36,
+        height: 36,
+        borderRadius: 18,
+        marginRight: 16
+    },
+    name: {
+        fontSize: 15,
+        fontWeight: "500",
+        color: "#454D65"
+    },
+    timestamp: {
+        fontSize: 11,
+        color: "#C4C6CE",
+        marginTop: 4
+    },
+    post: {
+        marginTop: 16,
+        fontSize: 14,
+        color: "#838899"
+    },
+    postImage: {
+        width: undefined,
+        height: 150,
+        borderRadius: 5,
+        marginVertical: 16
+    }
 });
 
