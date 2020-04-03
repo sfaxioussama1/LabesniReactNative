@@ -1,10 +1,10 @@
 // App.js
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { createAppContainer, createSwitchNavigator } from "react-navigation";
-import { createStackNavigator } from "react-navigation-stack";
-import { createBottomTabNavigator } from "react-navigation-tabs";
-import { Ionicons } from "@expo/vector-icons";
+import {StyleSheet, Text, View} from 'react-native';
+import {createAppContainer, createSwitchNavigator} from "react-navigation";
+import {createStackNavigator} from "react-navigation-stack";
+import {createBottomTabNavigator} from "react-navigation-tabs";
+import {Ionicons} from "@expo/vector-icons";
 import loadingscreens from "./screens/loadingscreens";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
@@ -17,9 +17,13 @@ import ProfileScreen from "./screens/ProfileScreen";
 import * as firebase from 'firebase';
 import {decode, encode} from 'base-64'
 
-if (!global.btoa) {  global.btoa = encode }
+if (!global.btoa) {
+    global.btoa = encode
+}
 
-if (!global.atob) { global.atob = decode }
+if (!global.atob) {
+    global.atob = decode
+}
 // héthya firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyC9FemRYyjg09dAZ2K6Qf0q_IoKDlLkcUw",
@@ -41,19 +45,19 @@ const AppContainer = createStackNavigator(
                 Home: {
                     screen: HomeScreen,
                     navigationOptions: {
-                        tabBarIcon: ({ tintColor }) => <Ionicons name="ios-home" size={24} color={tintColor} />
+                        tabBarIcon: ({tintColor}) => <Ionicons name="ios-home" size={24} color={tintColor}/>
                     }
                 },
                 Message: {
                     screen: MessageScreen,
                     navigationOptions: {
-                        tabBarIcon: ({ tintColor }) => <Ionicons name="ios-chatboxes" size={24} color={tintColor} />
+                        tabBarIcon: ({tintColor}) => <Ionicons name="ios-chatboxes" size={24} color={tintColor}/>
                     }
                 },
                 Post: {
                     screen: PostScreen,
                     navigationOptions: {
-                        tabBarIcon: ({ tintColor }) => (
+                        tabBarIcon: ({tintColor}) => (
                             <Ionicons
                                 name="ios-add-circle"
                                 size={48}
@@ -71,19 +75,19 @@ const AppContainer = createStackNavigator(
                 Notification: {
                     screen: NotificationScreen,
                     navigationOptions: {
-                        tabBarIcon: ({ tintColor }) => <Ionicons name="ios-notifications" size={24} color={tintColor} />
+                        tabBarIcon: ({tintColor}) => <Ionicons name="ios-notifications" size={24} color={tintColor}/>
                     }
                 },
                 Profile: {
                     screen: ProfileScreen,
                     navigationOptions: {
-                        tabBarIcon: ({ tintColor }) => <Ionicons name="ios-person" size={24} color={tintColor} />
+                        tabBarIcon: ({tintColor}) => <Ionicons name="ios-person" size={24} color={tintColor}/>
                     }
                 }
             },
             {
                 defaultNavigationOptions: {
-                    tabBarOnPress: ({ navigation, defaultHandler }) => {
+                    tabBarOnPress: ({navigation, defaultHandler}) => {
                         if (navigation.state.key === "Post") {
                             navigation.navigate("postModal");
                         } else {
@@ -110,29 +114,29 @@ const AppContainer = createStackNavigator(
 );
 
 const AuthStack = createStackNavigator({
-    Login:LoginScreen,
-    Register : RegisterScreen
+        Login: LoginScreen,
+        Register: RegisterScreen
 
 
-});
+    },
+    {
+        initialRouteName:"Register"
+    }
+);
 
 export default createAppContainer(
-
     createSwitchNavigator(
         {
-            loading : loadingscreens,
+            loading: loadingscreens,
             App: AppContainer,
-            Auth : AuthStack
+            Auth: AuthStack
 
         },
         {
-            initialRouteName : "loading"
+            initialRouteName: "loading"
         }
-
     )
 )
-
-
 
 
 const styles = StyleSheet.create({
