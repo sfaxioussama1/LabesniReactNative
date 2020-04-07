@@ -7,6 +7,7 @@ import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import Fire from "../Fire";
 import * as ImagePicker from "expo-image-picker";
+import UserPermissions from "../utilies/UserPermissions";
 
 const firebase = require("firebase");
 require("firebase/firestore");
@@ -18,19 +19,19 @@ export default class PostScreen extends React.Component {
     };
 
     componentDidMount() {
-        this.getPhotoPermission();
+        UserPermissions.getCameraPermission;
     }
 
-    getPhotoPermission = async() => {
-        if (Constants.platform.ios) {
-            const {status} = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-
-            if (status != "granted") {
-                alert("lezemek  permission bech t'accidi lil camera");
-
-            }
-        }
-    };
+    // getPhotoPermission = async() => {
+    //     if (Constants.platform.ios) {
+    //         const {status} = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    //
+    //         if (status != "granted") {
+    //             alert("lezemek  permission bech t'accidi lil camera");
+    //
+    //         }
+    //     }
+    // };
 
     handlePost = () => {
         Fire.shared
