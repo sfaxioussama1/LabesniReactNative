@@ -67,7 +67,55 @@ export default class HomeScreen extends React.Component {
         this.loadFeed();
 
 
-    }
+    };
+
+    checkTime = (s) => {
+        if(s== 1){
+        return 'ago';
+        }else {
+            return 's ago';
+        }
+
+    };
+
+    timeConverter = (timestamp) =>{
+        var a = new Date(timestamp *1000);
+        var seconds = Math.floor((new Date() -a )/1000);
+
+        var interval = Math.floor(seconds / 31536000);
+        if(interval>1){
+            return interval+' year '+this.checkTime(interval);
+        }
+
+        interval = Math.floor(seconds / 2592000);
+
+        if(interval>1){
+            return interval+' month '+this.checkTime(interval);
+        }
+
+        interval = Math.floor(seconds / 86400);
+
+        if(interval>1){
+            return interval+' day '+this.checkTime(interval);
+        }
+
+        interval = Math.floor(seconds / 3600);
+
+        if(interval>1){
+            return interval+' hour '+this.checkTime(interval);
+        }
+
+        interval = Math.floor(seconds / 60);
+
+        if(interval>1){
+            return interval+' minute '+this.checkTime(interval);
+        }
+
+        return Math.floor(seconds)+' second '+this.checkTime(seconds);
+
+
+    };
+
 
     loadFeed = () => {
         this.setState({
@@ -88,7 +136,7 @@ export default class HomeScreen extends React.Component {
                         id: photo,
                         url: photoObjt.url,
                         caption: photoObjt.caption,
-                        posted: photoObjt.posted,
+                        posted: that.timeConverter(photoObjt.posted),
                         authorUsername: data.username,
                         authorAvatar: data.avatar
 
@@ -107,11 +155,11 @@ export default class HomeScreen extends React.Component {
         }).catch(error => console.log(error));
 
 
-    }
+    };
 
     loadNew = () => {
         this.loadFeed();
-    }
+    };
 
 
     // state = { email: "", displayName: "" };
