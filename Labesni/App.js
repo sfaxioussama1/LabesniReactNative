@@ -25,17 +25,17 @@ if (!global.atob) {
     global.atob = decode
 }
 // héthya firebase configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyC9FemRYyjg09dAZ2K6Qf0q_IoKDlLkcUw",
-    authDomain: "projetlabesni.firebaseapp.com",
-    databaseURL: "https://projetlabesni.firebaseio.com",
-    projectId: "projetlabesni",
-    storageBucket: "projetlabesni.appspot.com",
-    messagingSenderId: "680868658843",
-    appId: "1:680868658843:web:2b911e8ad58ed55fea103e",
-    measurementId: "G-248T43CJVX"
-};
-firebase.initializeApp(firebaseConfig);
+// const firebaseConfig = {
+//     apiKey: "AIzaSyC9FemRYyjg09dAZ2K6Qf0q_IoKDlLkcUw",
+//     authDomain: "projetlabesni.firebaseapp.com",
+//     databaseURL: "https://projetlabesni.firebaseio.com",
+//     projectId: "projetlabesni",
+//     storageBucket: "projetlabesni.appspot.com",
+//     messagingSenderId: "680868658843",
+//     appId: "1:680868658843:web:2b911e8ad58ed55fea103e",
+//     measurementId: "G-248T43CJVX"
+// };
+// firebase.initializeApp(firebaseConfig);
 
 
 const AppContainer = createStackNavigator(
@@ -127,7 +127,8 @@ const AuthStack = createStackNavigator({
 export default createAppContainer(
     createSwitchNavigator(
         {
-            loading: loadingscreens,
+            // loading: loadingscreens,
+            loading: HomeScreen,
             App: AppContainer,
             Auth: AuthStack
 
