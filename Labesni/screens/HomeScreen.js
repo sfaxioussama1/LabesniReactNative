@@ -1,5 +1,5 @@
 import React from "react";
-import {View, Text, StyleSheet, Image, FlatList} from "react-native";
+import {View, Text, StyleSheet, Image, FlatList,TouchableOpacity} from "react-native";
 import firebase from "firebase";
 import {Ionicons} from "@expo/vector-icons";
 import {f, auth, database, storage} from "../config/config.js"
@@ -70,48 +70,48 @@ export default class HomeScreen extends React.Component {
     };
 
     checkTime = (s) => {
-        if(s== 1){
-        return 'ago';
-        }else {
+        if (s == 1) {
+            return 'ago';
+        } else {
             return 's ago';
         }
 
     };
 
-    timeConverter = (timestamp) =>{
-        var a = new Date(timestamp *1000);
-        var seconds = Math.floor((new Date() -a )/1000);
+    timeConverter = (timestamp) => {
+        var a = new Date(timestamp * 1000);
+        var seconds = Math.floor((new Date() - a ) / 1000);
 
         var interval = Math.floor(seconds / 31536000);
-        if(interval>1){
-            return interval+' year '+this.checkTime(interval);
+        if (interval > 1) {
+            return interval + ' year ' + this.checkTime(interval);
         }
 
         interval = Math.floor(seconds / 2592000);
 
-        if(interval>1){
-            return interval+' month '+this.checkTime(interval);
+        if (interval > 1) {
+            return interval + ' month ' + this.checkTime(interval);
         }
 
         interval = Math.floor(seconds / 86400);
 
-        if(interval>1){
-            return interval+' day '+this.checkTime(interval);
+        if (interval > 1) {
+            return interval + ' day ' + this.checkTime(interval);
         }
 
         interval = Math.floor(seconds / 3600);
 
-        if(interval>1){
-            return interval+' hour '+this.checkTime(interval);
+        if (interval > 1) {
+            return interval + ' hour ' + this.checkTime(interval);
         }
 
         interval = Math.floor(seconds / 60);
 
-        if(interval>1){
-            return interval+' minute '+this.checkTime(interval);
+        if (interval > 1) {
+            return interval + ' minute ' + this.checkTime(interval);
         }
 
-        return Math.floor(seconds)+' second '+this.checkTime(seconds);
+        return Math.floor(seconds) + ' second ' + this.checkTime(seconds);
 
 
     };
@@ -138,7 +138,8 @@ export default class HomeScreen extends React.Component {
                         caption: photoObjt.caption,
                         posted: that.timeConverter(photoObjt.posted),
                         authorUsername: data.username,
-                        authorAvatar: data.avatar
+                        authorAvatar: data.avatar,
+                        authorId : photoObjt.author
 
                     });
                     that.setState({
@@ -228,7 +229,9 @@ export default class HomeScreen extends React.Component {
                         <View style={{ flex: 1 }}>
                          <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
                          <View>
+                          <TouchableOpacity onPress={() => this.props.navigation.navigate('Profile',{userId: item.authorId })}   >
                          <Text style={styles.name}>{item.authorUsername}</Text>
+                         </TouchableOpacity>
                           <Text style={styles.timestamp}>{item.posted}</Text>
                           </View>
                            <Ionicons name="ios-more" size={24} color="#73788B"/>
@@ -236,8 +239,10 @@ export default class HomeScreen extends React.Component {
                            <Text style={styles.post}>{item.caption}</Text>
                            <Image source={{uri:item.url}} style={styles.postImage} resizeMode="cover"/>
                            <View style={{ flexDirection: "row" }}>
-                            <Ionicons name="ios-heart-empty" size={24} color="#73788B" style={{ marginRight: 16 }}/>
-                             <Ionicons name="ios-chatboxes" size={24} color="#73788B"/>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('comments',{userId: item.id })}   >
+
+                             <Ionicons name="ios-chatboxes" size={35} color="#73788B"/>
+                           </TouchableOpacity>
                              </View>
                              </View>
                               </View>

@@ -11,6 +11,7 @@ import RegisterScreen from "./screens/RegisterScreen";
 import HomeScreen from "./screens/HomeScreen";
 
 import MessageScreen from "./screens/MessageScreen";
+import Commentss from "./screens/Comments";
 import PostScreen from "./screens/PostScreen";
 import NotificationScreen from "./screens/NotificationScreen";
 import ProfileScreen from "./screens/ProfileScreen";
@@ -120,15 +121,26 @@ const AuthStack = createStackNavigator({
 
     },
     {
-        initialRouteName:"Register"
+        initialRouteName:"Login"
     }
+);
+
+const Comm = createStackNavigator({
+    comments: Commentss
+
+
+
+    }
+
 );
 
 export default createAppContainer(
     createSwitchNavigator(
         {
-            // loading: loadingscreens,
-            loading: HomeScreen,
+
+            loading: loadingscreens,
+            comments:Comm,
+            // loading: HomeScreen,
             App: AppContainer,
             Auth: AuthStack
 
