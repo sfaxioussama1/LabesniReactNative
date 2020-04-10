@@ -123,7 +123,7 @@
 
 
 import React from "react";
-import {View, Text, StyleSheet, TouchableOpacity} from "react-native";
+import {TextInput, ActivityIndicator, View, Text, StyleSheet, TouchableOpacity} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from "expo-image-picker";
@@ -135,7 +135,11 @@ export default class PostScreen extends React.Component {
         super(propos);
         this.state = {
             loggedin: false,
-            imageId: this.uniqueId()
+            imageId: this.uniqueId(),
+            imageSelected: false,
+            uploading: false,
+            caption: ''
+
         }
         // alert(this.uniqueId());
 
@@ -177,10 +181,19 @@ export default class PostScreen extends React.Component {
 
         if (!result.cancelled) {
             console.log('upload image');
-            this.uploadImage(result.uri);
+            // this.uploadImage(result.uri);
+            this.setState({
+                imageSelected: true,
+                imageId: this.uniqueId(),
+                uri: result.uri
+            })
 
         } else {
-            console.log('cancel')
+            console.log('cancel');
+            this.setState({
+                imageSelected: false
+            })
+
         }
 
     };
@@ -193,12 +206,12 @@ export default class PostScreen extends React.Component {
         var ext = re.exec(uri)[1];
         this.setState({currentFileType: ext});
 
-        const  response = await fetch (uri);
+        const response = await fetch(uri);
         const blob = await response.blob();
 
-        var FilePath = imageId+'.'+that.state.currentFileType;
+        var FilePath = imageId + '.' + that.state.currentFileType;
 
-        const ref = storage.ref('user/'+userid+'/img').child(FilePath);
+        const ref = storage.ref('user/' + userid + '/img').child(FilePath);
 
         var snapshot = ref.put(blob).on('state_changed', snapshot => {
             console.log('Progress', snapshot.bytesTransferred, snapshot.totalBytes);
@@ -209,12 +222,42 @@ export default class PostScreen extends React.Component {
 
     render() {
         return (
-            <View style={styles.container}>
-                <Text>Upload Your Image</Text>
-                <Text></Text>
-                <TouchableOpacity onPress={()=> this.findNewImage()}>
-                    <Ionicons name="md-camera" size={60} color="#D8D9DB"></Ionicons>
-                </TouchableOpacity>
+            <View style={{flex:1}}>
+                {this.state.imageSelected == true ? (
+                    <View style={{flex:1}}>
+
+                        <View style={styles.header}>
+                            <Text style={styles.headerTitle}>Upload</Text>
+
+                        </View>
+                        <View style={{padding:5}}>
+                            <Text style={{marginTop : 5}}>Text:</Text>
+                            <TextInput
+                                editable={true}
+                                autoFocus={true}
+                                multiline={true}
+                                numberOfLines={4}
+                                style={{ marginVertical:10, height:100, padding: 5, borderColor: 'grey', borderWidth:1,borderRadius:3,backgroundColor:'white', color:'black'}}
+                                placeholder="Want to share something?"
+                                onChangeText={text => this.setState({ caption:text })}
+                                value={this.state.text}
+                            ></TextInput>
+
+                        </View>
+
+                    </View>
+
+                ) : (
+
+
+                    <View style={styles.container}>
+                        <Text>Upload Your Image</Text>
+                        <Text></Text>
+                        <TouchableOpacity onPress={()=> this.findNewImage()}>
+                            <Ionicons name="md-camera" size={60} color="#D8D9DB"></Ionicons>
+                        </TouchableOpacity>
+                    </View>
+                )}
             </View>
         );
     }
@@ -225,5 +268,19 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         justifyContent: "center"
+    },
+    header: {
+        paddingTop: 64,
+        paddingBottom: 16,
+        backgroundColor: "#FFF",
+        alignItems: "center",
+        justifyContent: "center",
+        borderBottomWidth: 1,
+        borderBottomColor: "#EBECF4",
+        shadowColor: "#454D65",
+        shadowOffset: {height: 5},
+        shadowRadius: 15,
+        shadowOpacity: 0.2,
+        zIndex: 10
     }
 });
