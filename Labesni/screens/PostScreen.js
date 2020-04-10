@@ -123,13 +123,98 @@
 
 
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import {View, Text, StyleSheet, TouchableOpacity} from "react-native";
+import {Ionicons} from "@expo/vector-icons";
+import * as Permissions from 'expo-permissions';
+import * as ImagePicker from "expo-image-picker";
+import {f, auth, database, storage} from "../config/config.js";
 
 export default class PostScreen extends React.Component {
+
+    constructor(propos) {
+        super(propos);
+        this.state = {
+            loggedin: false,
+            imageId: this.uniqueId()
+        }
+        // alert(this.uniqueId());
+
+    }
+
+    _checkPermissions = async() => {
+        const {status} = await Permissions.askAsync(Permissions.CAMERA);
+        this.setState({camera: status});
+
+        const {statusRoll} = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        this.setState({cameraRoll: statusRoll});
+
+
+    };
+
+    s4 = () => {
+        return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+
+    };
+
+
+    uniqueId = () => {
+        return this.s4() + this.s4() + '-' + this.s4() + '-' + this.s4() + '-' +
+            this.s4() + '-' + this.s4() + '-' + this.s4() + '-' + this.s4() + '-'
+    };
+
+    findNewImage = async()=> {
+
+        this._checkPermissions();
+
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: 'Images',
+            allowsEditing: true,
+            quality: 1
+        });
+        console.log(result);
+
+        if (!result.cancelled) {
+            console.log('upload image');
+            this.uploadImage(result.uri);
+
+        } else {
+            console.log('cancel')
+        }
+
+    };
+    uploadImage = async(uri)=> {
+        var that = this;
+        var userid = f.auth().currentUser.uid;
+        var imageId = this.state.imageId;
+
+        var re = /(?:\.([^.]+))?$/;
+        var ext = re.exec(uri)[1];
+        this.setState({currentFileType: ext});
+
+        const  response = await fetch (uri);
+        const blob = await response.blob();
+
+        var FilePath = imageId+'.'+that.state.currentFileType;
+
+        const ref = storage.ref('user/'+userid+'/img').child(FilePath);
+
+        var snapshot = ref.put(blob).on('state_changed', snapshot => {
+            console.log('Progress', snapshot.bytesTransferred, snapshot.totalBytes);
+        });
+
+    };
+
+
     render() {
         return (
             <View style={styles.container}>
-                <Text>Message Screen</Text>
+                <Text>Upload Your Image</Text>
+                <Text></Text>
+                <TouchableOpacity onPress={()=> this.findNewImage()}>
+                    <Ionicons name="md-camera" size={60} color="#D8D9DB"></Ionicons>
+                </TouchableOpacity>
             </View>
         );
     }
