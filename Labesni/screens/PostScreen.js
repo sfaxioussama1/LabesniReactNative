@@ -123,7 +123,7 @@
 
 
 import React from "react";
-import {TextInput, ActivityIndicator, View, Text, StyleSheet, TouchableOpacity} from "react-native";
+import {TextInput, ActivityIndicator, View, Text, StyleSheet, TouchableOpacity, Image} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from "expo-image-picker";
@@ -138,7 +138,8 @@ export default class PostScreen extends React.Component {
             imageId: this.uniqueId(),
             imageSelected: false,
             uploading: false,
-            caption: ''
+            caption: '',
+            progress: 0
 
         }
         // alert(this.uniqueId());
@@ -197,6 +198,17 @@ export default class PostScreen extends React.Component {
         }
 
     };
+
+    uploadPublish = () => {
+        if (his.state.caption != '') {
+            this.uploadImage(this.state.uri);
+
+        } else {
+            alert('brabi da5el text');
+        }
+
+    };
+
     uploadImage = async(uri)=> {
         var that = this;
         var userid = f.auth().currentUser.uid;
@@ -204,18 +216,41 @@ export default class PostScreen extends React.Component {
 
         var re = /(?:\.([^.]+))?$/;
         var ext = re.exec(uri)[1];
-        this.setState({currentFileType: ext});
+        this.setState({
+            currentFileType: ext,
+            uploading: true
+        });
 
         const response = await fetch(uri);
         const blob = await response.blob();
 
         var FilePath = imageId + '.' + that.state.currentFileType;
 
-        const ref = storage.ref('user/' + userid + '/img').child(FilePath);
+        var uploadTask = storage.ref('user/' + userid + '/img').child(FilePath).put(blob);
+        uploadTask.on('state_changed', function (snapshot) {
+            var progress = ((snapshot.bytesTransferred / snapshot.totalBytes) * 100).toFixed(0);
+            console.log('Upload Is ' + progress + '% complete');
+            that.setState({
+                progress:progress,
 
-        var snapshot = ref.put(blob).on('state_changed', snapshot => {
-            console.log('Progress', snapshot.bytesTransferred, snapshot.totalBytes);
+            });
+        }, function (error) {
+            console.log('error with upload - '+error);
+        }, function () {
+this.setState({progress:100});
+            uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL){
+            
+                alert(downloadURL);
+            });
+
         });
+
+
+        // var snapshot = ref.put(blob).on('state_changed', snapshot => {
+        // console.log('Progress', snapshot.bytesTransferred, snapshot.totalBytes);
+//     }
+// )
+//     ;
 
     };
 
@@ -242,6 +277,28 @@ export default class PostScreen extends React.Component {
                                 onChangeText={text => this.setState({ caption:text })}
                                 value={this.state.text}
                             ></TextInput>
+                            <TouchableOpacity onPress={()=> this.uploadPublish()}
+                                              style={{alignSelf:'center', width:170,marginHorizontal:'auto', backgroundColor:'purple', borderRadius:5, paddingVertical:10, paddingHorizontal:20}}>
+                                <Text style={{textAlign:'center', color:'white'}}>Upload & Publish</Text>
+                            </TouchableOpacity>
+
+                            { this.state.uploading == true ? (
+                                <View style={{marginTop:10}}>
+                                    <Text>{this.state.progress} %</Text>
+                                    {this.state.progress != 100 ? (
+                                        <ActivityIndicator size="small" color="blue"></ActivityIndicator>
+                                    ) : (
+                                        <Text>Processing</Text>
+                                    )}
+                                </View>
+
+                            ) : (
+                                <View></View>
+                            )}
+
+                            <Image source={{uri : this.state.uri}}
+                                   style={{marginTop:10,resizeMode:'cover', width:'100%',height:275}}/>
+
 
                         </View>
 
