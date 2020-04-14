@@ -200,11 +200,15 @@ export default class PostScreen extends React.Component {
     };
 
     uploadPublish = () => {
-        if (his.state.caption != '') {
-            this.uploadImage(this.state.uri);
+        if (this.state.uploading == false) {
+            if (his.state.caption != '') {
+                this.uploadImage(this.state.uri);
 
+            } else {
+                alert('brabi da5el text');
+            }
         } else {
-            alert('brabi da5el text');
+            console.log('ignore button')
         }
 
     };
@@ -231,16 +235,16 @@ export default class PostScreen extends React.Component {
             var progress = ((snapshot.bytesTransferred / snapshot.totalBytes) * 100).toFixed(0);
             console.log('Upload Is ' + progress + '% complete');
             that.setState({
-                progress:progress,
+                progress: progress,
 
             });
         }, function (error) {
-            console.log('error with upload - '+error);
+            console.log('error with upload - ' + error);
         }, function () {
-this.setState({progress:100});
-            uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL){
-            
-                alert(downloadURL);
+            this.setState({progress: 100});
+            uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+                console.log(downloadURL);
+                that.procesUpload(downloadURL);
             });
 
         });
@@ -251,6 +255,43 @@ this.setState({progress:100});
 //     }
 // )
 //     ;
+
+
+    };
+
+    procesUpload = (imageUrl) => {
+        var imageId = this.state.imageId;
+        var userId = f.auth().currentUser.uid;
+
+        var caption = this.state.caption;
+
+        var dateTime = Date.now();
+        var timestamp = Math.floor(dateTime / 1000);
+
+
+        var photoObj = {
+            author: userId,
+            caption: caption,
+            posted: timestamp,
+            url: imageUrl
+
+
+        };
+
+        database.ref('/photos/' + imageId).set(photoObj);
+        database.ref('/users/'+userId+'/photos/' + imageId).set(photoObj);
+        alert('Image Uploaded !!!');
+
+        this.setState({
+            uploading: false,
+            imageSelected : false,
+            caption: '',
+            uri:''
+
+
+
+        });
+
 
     };
 
