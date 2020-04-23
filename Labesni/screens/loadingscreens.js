@@ -5,7 +5,7 @@ import {f, auth, database, storage} from "../config/config.js"
 export default class loadingscreens extends React.Component {
 login = async() => {
     try {
-        let user = await auth.signInWithEmailAndPassword('test@gmail.com','test123');
+        let user = await auth.signInWithEmailAndPassword('example.user@gmail.com','123456');
 
     }catch(error){
          console.log(error)

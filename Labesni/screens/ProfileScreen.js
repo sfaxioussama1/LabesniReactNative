@@ -113,8 +113,11 @@
 
 
 import React from "react";
+import {Ionicons} from "@expo/vector-icons";
 import {View, Text, StyleSheet, Button, Image, FlatList} from "react-native";
 import {f, auth, database, storage} from "../config/config.js"
+import PhotoList from '../components/photoList.js'
+
 
 export default class ProfileScreen extends React.Component {
 
@@ -157,7 +160,12 @@ export default class ProfileScreen extends React.Component {
 
     componentDidMount = ()=> {
         this.checkParams();
+       var that = this;
+        f.auth().onAuthStateChanged(function (user) {
 
+            userId:user.uid;
+            
+        })
     };
 
     render() {
@@ -203,11 +211,8 @@ export default class ProfileScreen extends React.Component {
                     }}
                                 title="Edit"
                         />
-
-                        <View
-                            style={{ flex : 1,justifyContent : 'center', alignItems :'center', backgroundColor :'green'}}>
-                            <Text>Loading photos ...</Text>
-                        </View>
+                        <PhotoList isUser={true} userId={this.state.userId} navigation={this.props.navigation}/>
+ 
                     </React.Fragment>)}
 
             </View>
