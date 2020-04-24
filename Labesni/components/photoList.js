@@ -173,7 +173,7 @@ class PhotoList extends React.Component {
                            <Text style={styles.post}>{item.caption}</Text>
                            <Image source={{uri:item.url}} style={styles.postImage} resizeMode="cover"/>
                            <View style={{ flexDirection: "row" }}>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('comments',{userId: item.id })}   >
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('comments',{photoId: item.id })}   >
 
                              <Ionicons name="ios-chatboxes" size={35} color="#73788B"/>
                            </TouchableOpacity>
