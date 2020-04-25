@@ -155,6 +155,9 @@ class Commentss extends React.Component {
         //
         // })
     };
+    postComment = () =>{
+        
+    }
 
     render() {
         return (
@@ -181,17 +184,37 @@ class Commentss extends React.Component {
                         renderItem={({item, index}) => (
                         <View key={index} style={{width:'100%', overflow:'hidden', marginBottom:5, justifyContent:'space-between', borderBottomWidth:1, borderColor:'grey'}}>
 
-                        <View>
+                        <View style={{padding:5,width: '100%',flexDirection:'row', justifyContent: 'space-between'}}>
                                <Text>{item.posted}</Text>
-                               <TouchableOpacity>
+                               <TouchableOpacity
+                              onPress={() => this.props.navigation.navigate('Profile',{userId: item.authorId })}   >
                                <Text>{item.author}</Text>
 
                                 </TouchableOpacity>
                              </View>
+                             <View style={{padding:5}}>
+                             <Text>{item.comment}</Text>
+</View>
                         </View>
                         )}
                     />
                 )}
+
+                <KeyboardAvoidingView behavior="padding" enabled style={{borderTopWidth:1, borderTopColor:'grey',padding:10,marginBottom:15}}>
+                    <Text style={{fontWeight:'bold'}}>POST COMMENT </Text>
+                    <View>
+                        <TextInput
+                        editable={true}
+                        placeholder={'entrer votre commandaire'}
+                        onChangeText={(text) => this.setState({comment: text})}
+                        style={{marginVertical:10,height:50, padding:5, borderColor:'grey', borderRadius:3, backgroundColor:'white'}}
+                        />
+                        <TouchableOpacity
+                        onPress={() =>this.postComment()}>
+                            <Text>POST</Text>
+                        </TouchableOpacity>
+                    </View>
+                </KeyboardAvoidingView>
 
             </View>
         );
