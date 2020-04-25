@@ -50,7 +50,7 @@ const AppContainer = createStackNavigator(
                     }
                 },
                 Message: {
-                    screen: MessageScreen,
+                    screen: Commentss,
                     navigationOptions: {
                         tabBarIcon: ({tintColor}) => <Ionicons name="ios-chatboxes" size={24} color={tintColor}/>
                     }

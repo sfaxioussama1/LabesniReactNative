@@ -54,132 +54,132 @@ console.warn = message => {
 
 
 export default class HomeScreen extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            photo_feed: [],
-            refresh: false,
-            loading: true
-        }
-
-    }
-
-
-    componentDidMount = ()=> {
-        this.loadFeed();
-
-
-        // callAPI_or_DB().then(result => {
-        //     if (this._isMounted) {
-        //         this.setState({isLoading: false})
-        //     }
-        // });
-
-
-    };
-
-
-
-    checkTime = (s) => {
-        if (s == 1) {
-            return 'ago';
-        } else {
-            return 's ago';
-        }
-
-    };
-
-    timeConverter = (timestamp) => {
-        var a = new Date(timestamp * 1000);
-        var seconds = Math.floor((new Date() - a ) / 1000);
-
-        var interval = Math.floor(seconds / 31536000);
-        if (interval > 1) {
-            return interval + ' year ' + this.checkTime(interval);
-        }
-
-        interval = Math.floor(seconds / 2592000);
-
-        if (interval > 1) {
-            return interval + ' month ' + this.checkTime(interval);
-        }
-
-        interval = Math.floor(seconds / 86400);
-
-        if (interval > 1) {
-            return interval + ' day ' + this.checkTime(interval);
-        }
-
-        interval = Math.floor(seconds / 3600);
-
-        if (interval > 1) {
-            return interval + ' hour ' + this.checkTime(interval);
-        }
-
-        interval = Math.floor(seconds / 60);
-
-        if (interval > 1) {
-            return interval + ' minute ' + this.checkTime(interval);
-        }
-
-        return Math.floor(seconds) + ' second ' + this.checkTime(seconds);
-
-
-    };
-
-    addToFlatlist = (photo_feed, data, photo) => {
-        var that = this;
-
-        var photoObjt = data[photo];
-        database.ref('users').child(photoObjt.author).once('value').then(function (snapshot) {
-            const exists = (snapshot.val() !== null);
-            if (exists) data = snapshot.val();
-            photo_feed.push({
-                id: photo,
-                url: photoObjt.url,
-                caption: photoObjt.caption,
-                posted: that.timeConverter(photoObjt.posted),
-                authorUsername: data.username,
-                authorAvatar: data.avatar,
-                authorId: photoObjt.author
-
-            });
-            that.setState({
-                refresh: false,
-                loading: false
-
-
-            });
-
-        }).catch(error => console.log(error));
-
-
-    }
-
-    loadFeed = () => {
-        this.setState({
-            refresh: true,
-            photo_feed: []
-        });
-        var that = this;
-        database.ref('photos').orderByChild('posted').once('value').then(function (snapshot) {
-            const exists = (snapshot.val() !== null);
-            if (exists) data = snapshot.val();
-            var photo_feed = that.state.photo_feed;
-            for (var photo in data) {
-                that.addToFlatlist(photo_feed, data, photo);
-            }
-
-
-        }).catch(error => console.log(error));
-
-
-    };
-
-    loadNew = () => {
-        this.loadFeed();
-    };
+    //
+    // constructor(props) {
+    //     super(props);
+    //     this.state = {
+    //         photo_feed: [],
+    //         refresh: false,
+    //         loading: true
+    //     }
+    //
+    // }
+    //
+    //
+    // componentDidMount = ()=> {
+    //     this.loadFeed();
+    //
+    //
+    //     // callAPI_or_DB().then(result => {
+    //     //     if (this._isMounted) {
+    //     //         this.setState({isLoading: false})
+    //     //     }
+    //     // });
+    //
+    //
+    // };
+    //
+    //
+    //
+    // checkTime = (s) => {
+    //     if (s == 1) {
+    //         return 'ago';
+    //     } else {
+    //         return 's ago';
+    //     }
+    //
+    // };
+    //
+    // timeConverter = (timestamp) => {
+    //     var a = new Date(timestamp * 1000);
+    //     var seconds = Math.floor((new Date() - a ) / 1000);
+    //
+    //     var interval = Math.floor(seconds / 31536000);
+    //     if (interval > 1) {
+    //         return interval + ' year ' + this.checkTime(interval);
+    //     }
+    //
+    //     interval = Math.floor(seconds / 2592000);
+    //
+    //     if (interval > 1) {
+    //         return interval + ' month ' + this.checkTime(interval);
+    //     }
+    //
+    //     interval = Math.floor(seconds / 86400);
+    //
+    //     if (interval > 1) {
+    //         return interval + ' day ' + this.checkTime(interval);
+    //     }
+    //
+    //     interval = Math.floor(seconds / 3600);
+    //
+    //     if (interval > 1) {
+    //         return interval + ' hour ' + this.checkTime(interval);
+    //     }
+    //
+    //     interval = Math.floor(seconds / 60);
+    //
+    //     if (interval > 1) {
+    //         return interval + ' minute ' + this.checkTime(interval);
+    //     }
+    //
+    //     return Math.floor(seconds) + ' second ' + this.checkTime(seconds);
+    //
+    //
+    // };
+    //
+    // addToFlatlist = (photo_feed, data, photo) => {
+    //     var that = this;
+    //
+    //     var photoObjt = data[photo];
+    //     database.ref('users').child(photoObjt.author).once('value').then(function (snapshot) {
+    //         const exists = (snapshot.val() !== null);
+    //         if (exists) data = snapshot.val();
+    //         photo_feed.push({
+    //             id: photo,
+    //             url: photoObjt.url,
+    //             caption: photoObjt.caption,
+    //             posted: that.timeConverter(photoObjt.posted),
+    //             authorUsername: data.username,
+    //             authorAvatar: data.avatar,
+    //             authorId: photoObjt.author
+    //
+    //         });
+    //         that.setState({
+    //             refresh: false,
+    //             loading: false
+    //
+    //
+    //         });
+    //
+    //     }).catch(error => console.log(error));
+    //
+    //
+    // }
+    //
+    // loadFeed = () => {
+    //     this.setState({
+    //         refresh: true,
+    //         photo_feed: []
+    //     });
+    //     var that = this;
+    //     database.ref('photos').orderByChild('posted').once('value').then(function (snapshot) {
+    //         const exists = (snapshot.val() !== null);
+    //         if (exists) data = snapshot.val();
+    //         var photo_feed = that.state.photo_feed;
+    //         for (var photo in data) {
+    //             that.addToFlatlist(photo_feed, data, photo);
+    //         }
+    //
+    //
+    //     }).catch(error => console.log(error));
+    //
+    //
+    // };
+    //
+    // loadNew = () => {
+    //     this.loadFeed();
+    // };
 
 
 // state = { email: "", displayName: "" };

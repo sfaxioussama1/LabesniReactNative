@@ -44,13 +44,14 @@ class Commentss extends React.Component {
                 authorId: commentObj.author
             });
 
-            that.serState({
+            that.setState({
                 refresh: false,
                 loading: false
             });
 
 
         }).catch(error => console.log(error));
+
 
     };
 
@@ -138,21 +139,21 @@ class Commentss extends React.Component {
 
     componentDidMount = ()=> {
         this.checkParams();
-        var that = this;
-        f.auth().onAuthStateChanged(function (user) {
-            if (user) {
-                that.setState({
-                    loggedin: true
-                });
-
-            } else {
-                that.setState({
-                    loggedin: false
-                });
-
-            }
-
-        })
+        // var that = this;
+        // f.auth().onAuthStateChanged(function (user) {
+        //     if (user) {
+        //         that.setState({
+        //             loggedin: true
+        //         });
+        //
+        //     } else {
+        //         that.setState({
+        //             loggedin: false
+        //         });
+        //
+        //     }
+        //
+        // })
     };
 
     render() {
@@ -163,7 +164,7 @@ class Commentss extends React.Component {
                     <TouchableOpacity
 
                         onPress={()=> this.props.navigation.navigate("Home")}>
-                        <Text style={{fontSize:12, fontWeight:'bold'}}>Go Back</Text>
+                        <Text style={{fontSize:20, fontWeight:'bold'}}>Go Back</Text>
                     </TouchableOpacity>
 
                 </View>
