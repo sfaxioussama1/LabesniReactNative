@@ -155,8 +155,44 @@ class Commentss extends React.Component {
         //
         // })
     };
-    postComment = () =>{
-        
+    postComment = () => {
+        var comment = this.state.comment;
+        if (comment != '') {
+
+            var imageId = this.state.photoId;
+            var userId = f.auth().currentUser.uid;
+            var commentId = this.uniqueId();
+            var dateTime = Date.now();
+            var timestamp = Math.floor(dateTime / 1000);
+
+            this.setState({
+                comment : ''
+
+
+            });
+
+            var commentObj = {
+                posted : timestamp,
+                author: userId,
+                comment : comment
+
+            };
+            database.ref('/comments/'+imageId+'/'+commentId).set(commentObj);
+            this.reloadCommentList();
+        } else {
+
+            alert('please enter a comment 9bal il posting')
+        }
+
+
+    };
+
+    reloadCommentList = () =>{
+        this.setState({
+            comments_list : []
+        });
+        this.fetchComments(this.state.photoId);
+
     }
 
     render() {
@@ -200,18 +236,20 @@ class Commentss extends React.Component {
                     />
                 )}
 
-                <KeyboardAvoidingView behavior="padding" enabled style={{borderTopWidth:1, borderTopColor:'grey',padding:10,marginBottom:15}}>
+                <KeyboardAvoidingView behavior="padding" enabled
+                                      style={{borderTopWidth:1, borderTopColor:'grey',padding:10,marginBottom:15}}>
                     <Text style={{fontWeight:'bold'}}>POST COMMENT </Text>
                     <View>
                         <TextInput
-                        editable={true}
-                        placeholder={'entrer votre commandaire'}
-                        onChangeText={(text) => this.setState({comment: text})}
-                        style={{marginVertical:10,height:50, padding:5, borderColor:'grey', borderRadius:3, backgroundColor:'white'}}
+                            editable={true}
+                            placeholder={'entrer votre commandaire'}
+                            onChangeText={(text) => this.setState({comment: text})}
+                            style={{marginVertical:10,height:50, padding:5, borderColor:'grey', borderRadius:3, backgroundColor:'white'}}
                         />
                         <TouchableOpacity
-                        onPress={() =>this.postComment()}>
-                            <Text>POST</Text>
+                            style={{paddingVertical:10,paddingHorizontal: 20,backgroundColor:'blue', borderRadius:5}}
+                            onPress={() =>this.postComment()}>
+                            <Text style={{color:'white'}}>POST</Text>
                         </TouchableOpacity>
                     </View>
                 </KeyboardAvoidingView>

@@ -129,6 +129,23 @@ export default class ProfileScreen extends React.Component {
 
     }
 
+    // fetchUserInfo = (userId) =>{
+    //   var that = this;
+    //     database.ref('users').child(userId).once('value').then(function (snapshot){
+    //      const exists = (snapshot.val() !==null);
+    //         if (exists) data = snapshot.val();
+    //         that.setState({
+    //             username:data.username,
+    //             name:data.name,
+    //             avatar:data.avatar,
+    //             userId:userId
+    //
+    //
+    //         })
+    //     });
+    //
+    // };
+
     checkParams = () => {
         var params = this.props.navigation.state.params;
         if (params) {
