@@ -3,18 +3,18 @@ import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
 import firebase from "firebase";
 import {f, auth, database, storage} from "../config/config.js"
 export default class loadingscreens extends React.Component {
-login = async() => {
-    try {
-        let user = await auth.signInWithEmailAndPassword('example.user@gmail.com','123456');
-
-    }catch(error){
-         console.log(error)
-    }
-};
+// login = async() => {
+//     try {
+//         let user = await auth.signInWithEmailAndPassword('example.user@gmail.com','123456');
+//
+//     }catch(error){
+//          console.log(error)
+//     }
+// };
 
     constructor(props){
         super(props);
-        this.login();
+        // this.login();
     }
 
     componentDidMount() {
