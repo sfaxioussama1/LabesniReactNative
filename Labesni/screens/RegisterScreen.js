@@ -37,9 +37,9 @@ export default class RegisterScreen extends React.Component {
 
     creeateUserObj = (userObj, email)=> {
         var uObj = {
-            name: "Enter nmae",
-            username: "@name",
-            avatar: "http://www.gravatar.com/avatar",
+            name: 'Enter nmae',
+            username: '@yala',
+            avatar: 'http://www.gravatar.com/avatar',
             email: email
         };
         database.ref('users').child(userObj.uid).set(uObj);
@@ -55,7 +55,7 @@ export default class RegisterScreen extends React.Component {
 
             try {
                 let user = await auth.createUserWithEmailAndPassword(email, password)
-                    .then((userObj) => this.creeateUserObj(userObj, user, email))
+                    .then((userObj) => this.creeateUserObj(userObj.user, email))
                     .catch((error) => alert(error));
 
             } catch (error) {
