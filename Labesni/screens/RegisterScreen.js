@@ -35,10 +35,10 @@ export default class RegisterScreen extends React.Component {
     //     errorMessage: null
     // };
 
-    creeateUserObj = (userObj, email)=> {
+    creeateUserObj = (userObj, email,username,name)=> {
         var uObj = {
-            name: 'Enter nmae',
-            username: '@yala',
+            name: name,
+            username: username,
             avatar: 'http://www.gravatar.com/avatar',
             email: email
         };
@@ -49,13 +49,15 @@ export default class RegisterScreen extends React.Component {
 
     handleSignUp = async() => {
         var email = this.state.email;
+        var username = this.state.username;
+        var name = this.state.name;
         var password = this.state.password;
         if (email != '' && password != '') {
 
 
             try {
                 let user = await auth.createUserWithEmailAndPassword(email, password)
-                    .then((userObj) => this.creeateUserObj(userObj.user, email))
+                    .then((userObj) => this.creeateUserObj(userObj.user, email,username,name))
                     .catch((error) => alert(error));
 
             } catch (error) {
@@ -119,6 +121,16 @@ export default class RegisterScreen extends React.Component {
                             value={this.state.name}
                         ></TextInput>
                     </View>
+
+
+                        <View>
+                            <Text style={styles.inputTitle}>Username</Text>
+                            <TextInput
+                                style={styles.input}
+                                onChangeText={(text) => this.setState({ username:text })} value={this.state.username}
+                                value={this.state.username}
+                            ></TextInput>
+                        </View>
 
                     <View style={{ marginTop: 32 }}>
                         <Text style={styles.inputTitle}>Email Address</Text>
