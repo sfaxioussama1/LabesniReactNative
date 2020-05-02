@@ -1,106 +1,234 @@
 import React from "react";
-import {View, Text, StyleSheet, Image, FlatList} from "react-native";
-import * as firebase from "firebase";
+import {View, Text, StyleSheet, Image, FlatList, TouchableOpacity} from "react-native";
+
 import {Ionicons} from "@expo/vector-icons";
+import {f, auth, database, storage} from "../config/config.js"
+import PhotoList from '../components/photoList.js'
+
 import moment from "moment";
-posts = [
-    {
-        id: "1",
-        name: "Amir 1",
-        text: "héthya test1",
-        timestamp: 1569109273726,
-        avatar: require("../assets/tempAvatar.jpg"),
-        image: require("../assets/tempImage1.jpg")
-    },
-    {
-        id: "2",
-        name: "Amir 2",
-        text: "héthya test2",
-        timestamp: 1569109273726,
-        avatar: require("../assets/tempAvatar.jpg"),
-        image: require("../assets/tempImage2.jpg")
-    },
-    {
-        id: "3",
-        name: "Amir 3",
-        text: "héthya test3",
-        timestamp: 1569109273726,
-        avatar: require("../assets/tempAvatar.jpg"),
-        image: require("../assets/tempImage3.jpg")
-    },
-    {
-        id: "4",
-        name: "Amir 4",
-        text: "héthya test4",
-        timestamp: 1569109273726,
-        avatar: require("../assets/tempAvatar.jpg"),
-        image: require("../assets/tempImage4.jpg")
+import {YellowBox} from 'react-native';
+import _ from 'lodash';
+import withUnmounted from '@ishawnwang/withunmounted'
+
+YellowBox.ignoreWarnings(['Setting a timer']);
+const _console = _.clone(console);
+console.warn = message => {
+    if (message.indexOf('Setting a timer') <= -1) {
+        _console.warn(message);
     }
-];
+};
+// posts = [
+//     {
+//         id: "1",
+//         name: "Amir 1",
+//         text: "héthya test1",
+//         timestamp: 1569109273726,
+//         avatar: require("../assets/tempAvatar.jpg"),
+//         image: require("../assets/tempImage1.jpg")
+//     },
+//     {
+//         id: "2",
+//         name: "Amir 2",
+//         text: "héthya test2",
+//         timestamp: 1569109273726,
+//         avatar: require("../assets/tempAvatar.jpg"),
+//         image: require("../assets/tempImage2.jpg")
+//     },
+//     {
+//         id: "3",
+//         name: "Amir 3",
+//         text: "héthya test3",
+//         timestamp: 1569109273726,
+//         avatar: require("../assets/tempAvatar.jpg"),
+//         image: require("../assets/tempImage3.jpg")
+//     },
+//     {
+//         id: "4",
+//         name: "Amir 4",
+//         text: "héthya test4",
+//         timestamp: 1569109273726,
+//         avatar: require("../assets/tempAvatar.jpg"),
+//         image: require("../assets/tempImage4.jpg")
+//     }
+// ];
 
 
 export default class HomeScreen extends React.Component {
-    // state = { email: "", displayName: "" };
-    // componentDidMount() {
-    //     const { email, displayName } = firebase.auth().currentUser;
     //
-    //     this.setState({ email, displayName });
+    // constructor(props) {
+    //     super(props);
+    //     this.state = {
+    //         photo_feed: [],
+    //         refresh: false,
+    //         loading: true
+    //     }
+    //
     // }
-    // signOutUser = () => {
-    //     firebase.auth().signOut();
+    //
+    //
+    // componentDidMount = ()=> {
+    //     this.loadFeed();
+    //
+    //
+    //     // callAPI_or_DB().then(result => {
+    //     //     if (this._isMounted) {
+    //     //         this.setState({isLoading: false})
+    //     //     }
+    //     // });
+    //
+    //
+    // };
+    //
+    //
+    //
+    // checkTime = (s) => {
+    //     if (s == 1) {
+    //         return 'ago';
+    //     } else {
+    //         return 's ago';
+    //     }
+    //
+    // };
+    //
+    // timeConverter = (timestamp) => {
+    //     var a = new Date(timestamp * 1000);
+    //     var seconds = Math.floor((new Date() - a ) / 1000);
+    //
+    //     var interval = Math.floor(seconds / 31536000);
+    //     if (interval > 1) {
+    //         return interval + ' year ' + this.checkTime(interval);
+    //     }
+    //
+    //     interval = Math.floor(seconds / 2592000);
+    //
+    //     if (interval > 1) {
+    //         return interval + ' month ' + this.checkTime(interval);
+    //     }
+    //
+    //     interval = Math.floor(seconds / 86400);
+    //
+    //     if (interval > 1) {
+    //         return interval + ' day ' + this.checkTime(interval);
+    //     }
+    //
+    //     interval = Math.floor(seconds / 3600);
+    //
+    //     if (interval > 1) {
+    //         return interval + ' hour ' + this.checkTime(interval);
+    //     }
+    //
+    //     interval = Math.floor(seconds / 60);
+    //
+    //     if (interval > 1) {
+    //         return interval + ' minute ' + this.checkTime(interval);
+    //     }
+    //
+    //     return Math.floor(seconds) + ' second ' + this.checkTime(seconds);
+    //
+    //
+    // };
+    //
+    // addToFlatlist = (photo_feed, data, photo) => {
+    //     var that = this;
+    //
+    //     var photoObjt = data[photo];
+    //     database.ref('users').child(photoObjt.author).once('value').then(function (snapshot) {
+    //         const exists = (snapshot.val() !== null);
+    //         if (exists) data = snapshot.val();
+    //         photo_feed.push({
+    //             id: photo,
+    //             url: photoObjt.url,
+    //             caption: photoObjt.caption,
+    //             posted: that.timeConverter(photoObjt.posted),
+    //             authorUsername: data.username,
+    //             authorAvatar: data.avatar,
+    //             authorId: photoObjt.author
+    //
+    //         });
+    //         that.setState({
+    //             refresh: false,
+    //             loading: false
+    //
+    //
+    //         });
+    //
+    //     }).catch(error => console.log(error));
+    //
+    //
+    // }
+    //
+    // loadFeed = () => {
+    //     this.setState({
+    //         refresh: true,
+    //         photo_feed: []
+    //     });
+    //     var that = this;
+    //     database.ref('photos').orderByChild('posted').once('value').then(function (snapshot) {
+    //         const exists = (snapshot.val() !== null);
+    //         if (exists) data = snapshot.val();
+    //         var photo_feed = that.state.photo_feed;
+    //         for (var photo in data) {
+    //             that.addToFlatlist(photo_feed, data, photo);
+    //         }
+    //
+    //
+    //     }).catch(error => console.log(error));
+    //
+    //
+    // };
+    //
+    // loadNew = () => {
+    //     this.loadFeed();
     // };
 
-    renderPost = post => {
-        return (
-            <View style={styles.labseniItem}>
-                <Image source={post.avatar} style={styles.avatar}/>
-                <View style={{ flex: 1 }}>
-                    <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-                        <View>
-                            <Text style={styles.name}>{post.name}</Text>
-                            <Text style={styles.timestamp}>{moment(post.timestamp).fromNow()}</Text>
-                        </View>
 
-                        <Ionicons name="ios-more" size={24} color="#73788B"/>
-                    </View>
-                    <Text style={styles.post}>{post.text}</Text>
-                    <Image source={post.image} style={styles.postImage} resizeMode="cover" />
-                    <View style={{ flexDirection: "row" }}>
-                        <Ionicons name="ios-heart-empty" size={24} color="#73788B" style={{ marginRight: 16 }} />
-                        <Ionicons name="ios-chatboxes" size={24} color="#73788B" />
-                    </View>
+// state = { email: "", displayName: "" };
+// componentDidMount() {
+//     const { email, displayName } = firebase.auth().currentUser;
+//
+//     this.setState({ email, displayName });
+// }
+// signOutUser = () => {
+//     firebase.auth().signOut();
+// };
 
-                </View>
-
-            </View>
-        );
-    };
+// renderPost = post => {
+//     return (
+//         <View style={styles.labseniItem}>
+//             <Image source={post.avatar} style={styles.avatar}/>
+//             <View style={{ flex: 1 }}>
+//                 <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+//                     <View>
+//                         <Text style={styles.name}>{post.name}</Text>
+//                         <Text style={styles.timestamp}>{moment(post.timestamp).fromNow()}</Text>
+//                     </View>
+//
+//                     <Ionicons name="ios-more" size={24} color="#73788B"/>
+//                 </View>
+//                 <Text style={styles.post}>{post.text}</Text>
+//                 <Image source={post.image} style={styles.postImage} resizeMode="cover" />
+//                 <View style={{ flexDirection: "row" }}>
+//                     <Ionicons name="ios-heart-empty" size={24} color="#73788B" style={{ marginRight: 16 }} />
+//                     <Ionicons name="ios-chatboxes" size={24} color="#73788B" />
+//                 </View>
+//
+//             </View>
+//
+//         </View>
+//     );
+// };
 
     render() {
         // LayoutAnimation.easeInEaseOut();
 
         return (
-            // <View style={styles.container}>
-            //     <Text>Hi {this.state.email}!</Text>
-            //
-            //     <TouchableOpacity style={{ marginTop: 32 }} onPress={this.signOutUser}>
-            //         <Text>Logout</Text>
-            //     </TouchableOpacity>
-            //
-            // </View>
+
             <View style={styles.container}>
                 <View style={styles.header}>
                     <Text style={styles.headerTitle}>Labseni</Text>
 
                 </View>
-
-                <FlatList
-                    style={styles.la}
-                    data={posts}
-                    renderItem={({ item }) => this.renderPost(item)}
-                    keyExtractor={item => item.id}
-                    showsVerticalScrollIndicator={false}
-                ></FlatList>
+                <PhotoList isUser={false} navigation={this.props.navigation}/>
 
             </View>
         );

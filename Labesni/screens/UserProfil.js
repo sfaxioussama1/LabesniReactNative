@@ -119,7 +119,7 @@ import {f, auth, database, storage} from "../config/config.js"
 import PhotoList from '../components/photoList.js'
 
 
-export default class ProfileScreen extends React.Component {
+export default class UserProfil extends React.Component {
 
     constructor(props) {
         super(props);
@@ -177,19 +177,13 @@ export default class ProfileScreen extends React.Component {
 
     componentDidMount = ()=> {
         this.checkParams();
-       var that = this;
+        var that = this;
         f.auth().onAuthStateChanged(function (user) {
-            if (user){
 
-            userId:user.uid;}
-            
+            userId:user.uid;
+
         })
     };
-
-    logoutUser = () =>{
-        f.auth().signOut();
-        alert('Logged Out')
-    }
 
     render() {
         return (
@@ -222,7 +216,7 @@ export default class ProfileScreen extends React.Component {
                         <Text style={styles.statAmount}></Text>
                         <Button
                             onPress={() => {
-                        this.logoutUser();
+                        Fire.shared.signOut();
                     }}
                             title="Log out"
                         />
@@ -235,7 +229,7 @@ export default class ProfileScreen extends React.Component {
                                 title="Edit"
                         />
                         <PhotoList isUser={true} userId={this.state.userId} navigation={this.props.navigation}/>
- 
+
                     </React.Fragment>)}
 
             </View>

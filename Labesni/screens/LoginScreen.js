@@ -1,24 +1,59 @@
 import React from "react";
-import {View, Text, ActivityIndicator, StyleSheet, TextInput, TouchableOpacity, Image, StatusBar, LayoutAnimation} from "react-native";
-import * as firebase from 'firebase';
+import {View,
+    Text,
+    ActivityIndicator,
+    StyleSheet,
+    TextInput,
+    TouchableOpacity,
+    Image,
+    StatusBar,
+    LayoutAnimation
+} from "react-native";
+// import * as firebase from 'firebase';
+import {f, auth, database, storage} from "../config/config.js"
+
 export default class LoginScreen extends React.Component {
     static navigationOptions = {
-        headerShown:false
+        headerShown: false
     };
 
-    state = {
-        email: "",
-        password: "",
-        errorMessage: null
-    };
-    handleLogin = () => {
-        const { email, password } = this.state;
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: "",
+            password: "",
+            moveScreen: false,
+            errorMessage: null
+        };
+    }
 
-        firebase
-            .auth()
-            .signInWithEmailAndPassword(email, password)
-            .catch(error => this.setState({ errorMessage: error.message }));
+    loginn = async() => {
+        var email = this.state.email;
+        var password = this.state.password;
+        if(email != '' && password!=''){
+
+
+
+        try {
+            let user = await auth.signInWithEmailAndPassword(email,password);
+
+        }catch(error){
+            console.log(error);
+            alert(error);
+        }
+        }else {
+            alert('email or password is empty');
+
+        }
     };
+    // handleLogin = () => {
+    //     const { email, password } = this.state;
+    //
+    //     firebase
+    //         .auth()
+    //         .signInWithEmailAndPassword(email, password)
+    //         .catch(error => this.setState({ errorMessage: error.message }));
+    // };
     render() {
         LayoutAnimation.easeInEaseOut();
         return (
@@ -27,7 +62,7 @@ export default class LoginScreen extends React.Component {
                 <StatusBar barStyle="light-content"></StatusBar>
                 <Image
                     source={require("../assets/authHeader.png")}
-                    style={{ marginTop: -186, marginLeft: -40 }}
+                    style={{ marginTop: -245, marginLeft: -40 }}
                 ></Image>
 
                 <Image
@@ -50,21 +85,24 @@ export default class LoginScreen extends React.Component {
                     <View>
                         <Text style={styles.inputTitle}>Email Address</Text>
                         <TextInput style={styles.input}
-                                   autoCapitalize="none" onChangeText={email => this.setState({ email })} value={this.state.email}></TextInput>
+                                   editable={true}
+                                   keyboardType={'email-address'}
+                                   autoCapitalize="none" onChangeText={(text) => this.setState({ email:text})}
+                                   value={this.state.email}></TextInput>
                     </View>
 
                     <View style={{ marginTop: 32 }}>
                         <Text style={styles.inputTitle}>Password</Text>
                         <TextInput
                             style={styles.input}
-                            secureTextEntry
+                            secureTextEntry={true}
                             autoCapitalize="none"
-                            onChangeText={password => this.setState({ password })} value={this.state.password}
+                            onChangeText={(text) => this.setState({ password:text })} value={this.state.password}
                         ></TextInput>
                     </View>
 
-                    </View>
-                <TouchableOpacity style={styles.button} onPress={this.handleLogin}>
+                </View>
+                <TouchableOpacity style={styles.button} onPress={()=> this.loginn()}>
                     <Text style={{ color: "#FFF", fontWeight: "500" }}>Sign in</Text>
                 </TouchableOpacity>
 
@@ -141,9 +179,26 @@ const styles = StyleSheet.create({
     }
 
 
-
-
 });
 
 
-
+// import React from "react";
+// import { View, Text, StyleSheet } from "react-native";
+//
+// export default class LoginScreen extends React.Component {
+//     render() {
+//         return (
+//             <View style={styles.container}>
+//                 <Text>register Screen</Text>
+//             </View>
+//         );
+//     }
+// }
+//
+// const styles = StyleSheet.create({
+//     container: {
+//         flex: 1,
+//         alignItems: "center",
+//         justifyContent: "center"
+//     }
+// });

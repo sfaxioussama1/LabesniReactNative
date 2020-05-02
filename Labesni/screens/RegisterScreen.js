@@ -1,30 +1,77 @@
 import React from "react";
-import { StyleSheet, Text, TextInput, View, TouchableOpacity, Image, StatusBar } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import {StyleSheet, Text, TextInput, View, TouchableOpacity, Image, StatusBar} from "react-native";
+import {Ionicons} from "@expo/vector-icons";
 import UserPermissions from "../utilies/UserPermissions";
 import * as ImagePicker from "expo-image-picker";
 import Fire from "../Fire";
+import {f, auth, database, storage} from "../config/config.js"
+
 
 export default class RegisterScreen extends React.Component {
     static navigationOptions = {
-        headerShown:false
+        headerShown: false
     };
 
-    state = {
-        user: {
+    constructor(props) {
+        super(props);
+        this.state = {
             name: "",
+            username:"",
             email: "",
             password: "",
+            moveScreen: false,
+            errorMessage: null,
             avatar: null
-        },
-        errorMessage: null
+        };
+    }
+
+    // state = {
+    //     user: {
+    //         name: "",
+    //         email: "",
+    //         password: "",
+    //         avatar: null
+    //     },
+    //     errorMessage: null
+    // };
+
+    creeateUserObj = (userObj, email,username,name)=> {
+        var uObj = {
+            name: name,
+            username: username,
+            avatar: 'http://www.gravatar.com/avatar',
+            email: email
+        };
+        database.ref('users').child(userObj.uid).set(uObj);
+
     };
 
-    handleSignUp = () => {
-        Fire.shared.createUser(this.state.user);
+
+    handleSignUp = async() => {
+        var email = this.state.email;
+        var username = this.state.username;
+        var name = this.state.name;
+        var password = this.state.password;
+        if (email != '' && password != '') {
+
+
+            try {
+                let user = await auth.createUserWithEmailAndPassword(email, password)
+                    .then((userObj) => this.creeateUserObj(userObj.user, email,username,name))
+                    .catch((error) => alert(error));
+
+            } catch (error) {
+                console.log(error);
+                alert(error);
+            }
+        } else {
+            alert('email or password is empty');
+
+        }
+        // Fire.shared.createUser(this.state.user);
     };
 
-    handlePickAvatar = async () => {
+    handlePickAvatar = async() => {
         UserPermissions.getCameraPermission();
 
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -34,7 +81,7 @@ export default class RegisterScreen extends React.Component {
         });
 
         if (!result.cancelled) {
-            this.setState({ user: { ...this.state.user, avatar: result.uri } });
+            this.setState({...this.state.avatar, avatar: result.uri});
         }
     };
 
@@ -51,7 +98,7 @@ export default class RegisterScreen extends React.Component {
                 <View style={{ position: "absolute", top: 24, alignItems: "center", width: "100%" }}>
 
                     <TouchableOpacity style={styles.avatarPlaceholder} onPress={this.handlePickAvatar}>
-                        <Image source={{ uri: this.state.user.avatar }} style={styles.avatar} />
+                        <Image source={{ uri: this.state.avatar }} style={styles.avatar}/>
                         <Ionicons
                             name="ios-add"
                             size={30}
@@ -70,18 +117,28 @@ export default class RegisterScreen extends React.Component {
                         <Text style={styles.inputTitle}>Full Name</Text>
                         <TextInput
                             style={styles.input}
-                            onChangeText={name => this.setState({ user: { ...this.state.user, name } })}
-                            value={this.state.user.name}
+                            onChangeText={(text) => this.setState({ name:text })} value={this.state.name}
+                            value={this.state.name}
                         ></TextInput>
                     </View>
+
+
+                        <View>
+                            <Text style={styles.inputTitle}>Username</Text>
+                            <TextInput
+                                style={styles.input}
+                                onChangeText={(text) => this.setState({ username:text })} value={this.state.username}
+                                value={this.state.username}
+                            ></TextInput>
+                        </View>
 
                     <View style={{ marginTop: 32 }}>
                         <Text style={styles.inputTitle}>Email Address</Text>
                         <TextInput
                             style={styles.input}
                             autoCapitalize="none"
-                            onChangeText={email => this.setState({ user: { ...this.state.user, email } })}
-                            value={this.state.user.email}
+                            onChangeText={(text) => this.setState({ email:text })} value={this.state.email}
+                            value={this.state.email}
                         ></TextInput>
                     </View>
 
@@ -91,8 +148,8 @@ export default class RegisterScreen extends React.Component {
                             style={styles.input}
                             secureTextEntry
                             autoCapitalize="none"
-                            onChangeText={password => this.setState({ user: { ...this.state.user, password } })}
-                            value={this.state.user.password}
+                            onChangeText={(text) => this.setState({ password:text })} value={this.state.password}
+                            value={this.state.password}
                         ></TextInput>
                     </View>
                 </View>
@@ -181,5 +238,26 @@ const styles = StyleSheet.create({
     }
 
 
-
 });
+
+
+// import React from "react";
+// import { View, Text, StyleSheet } from "react-native";
+//
+// export default class RegisterScreen extends React.Component {
+//     render() {
+//         return (
+//             <View style={styles.container}>
+//                 <Text>register Screen</Text>
+//             </View>
+//         );
+//     }
+// }
+//
+// const styles = StyleSheet.create({
+//     container: {
+//         flex: 1,
+//         alignItems: "center",
+//         justifyContent: "center"
+//     }
+// });

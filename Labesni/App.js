@@ -11,6 +11,7 @@ import RegisterScreen from "./screens/RegisterScreen";
 import HomeScreen from "./screens/HomeScreen";
 
 import MessageScreen from "./screens/MessageScreen";
+import Commentss from "./screens/Comments";
 import PostScreen from "./screens/PostScreen";
 import NotificationScreen from "./screens/NotificationScreen";
 import ProfileScreen from "./screens/ProfileScreen";
@@ -25,17 +26,17 @@ if (!global.atob) {
     global.atob = decode
 }
 // héthya firebase configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyC9FemRYyjg09dAZ2K6Qf0q_IoKDlLkcUw",
-    authDomain: "projetlabesni.firebaseapp.com",
-    databaseURL: "https://projetlabesni.firebaseio.com",
-    projectId: "projetlabesni",
-    storageBucket: "projetlabesni.appspot.com",
-    messagingSenderId: "680868658843",
-    appId: "1:680868658843:web:2b911e8ad58ed55fea103e",
-    measurementId: "G-248T43CJVX"
-};
-firebase.initializeApp(firebaseConfig);
+// const firebaseConfig = {
+//     apiKey: "AIzaSyC9FemRYyjg09dAZ2K6Qf0q_IoKDlLkcUw",
+//     authDomain: "projetlabesni.firebaseapp.com",
+//     databaseURL: "https://projetlabesni.firebaseio.com",
+//     projectId: "projetlabesni",
+//     storageBucket: "projetlabesni.appspot.com",
+//     messagingSenderId: "680868658843",
+//     appId: "1:680868658843:web:2b911e8ad58ed55fea103e",
+//     measurementId: "G-248T43CJVX"
+// };
+// firebase.initializeApp(firebaseConfig);
 
 
 const AppContainer = createStackNavigator(
@@ -49,7 +50,7 @@ const AppContainer = createStackNavigator(
                     }
                 },
                 Message: {
-                    screen: MessageScreen,
+                    screen: Commentss,
                     navigationOptions: {
                         tabBarIcon: ({tintColor}) => <Ionicons name="ios-chatboxes" size={24} color={tintColor}/>
                     }
@@ -120,14 +121,26 @@ const AuthStack = createStackNavigator({
 
     },
     {
-        initialRouteName:"Register"
+        initialRouteName:"Login"
     }
+);
+
+const Comm = createStackNavigator({
+    comments: Commentss
+
+
+
+    }
+
 );
 
 export default createAppContainer(
     createSwitchNavigator(
         {
+
             loading: loadingscreens,
+            comments:Comm,
+            // loading: HomeScreen,
             App: AppContainer,
             Auth: AuthStack
 
