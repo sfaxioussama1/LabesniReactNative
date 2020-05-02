@@ -114,7 +114,7 @@
 
 import React from "react";
 import {Ionicons} from "@expo/vector-icons";
-import {View, Text, StyleSheet, Button, Image, FlatList} from "react-native";
+import {View, Text, StyleSheet, Button, Image, FlatList,TouchableOpacity} from "react-native";
 import {f, auth, database, storage} from "../config/config.js"
 import PhotoList from '../components/photoList.js'
 
@@ -189,6 +189,15 @@ export default class UserProfil extends React.Component {
         return (
 
             <View style={styles.container}>
+                <View style={{flexDirection:'row', height: 30,paddingTop:20, backgroundColor:'white', borderColor:'lightgrey' ,borderBottomWidth:0.2,  alignItems: "center",
+        justifyContent: "center"}}>
+                    <TouchableOpacity
+
+                        onPress={()=> this.props.navigation.navigate("Home")}>
+                        <Text style={{fontSize:15, fontWeight:'bold'}}>Go Back</Text>
+                    </TouchableOpacity>
+
+                </View>
                 {this.state.loaded == false ? (
                     <View>
                         <Text>Loading ....</Text>
@@ -214,20 +223,9 @@ export default class UserProfil extends React.Component {
                         </View>
 
                         <Text style={styles.statAmount}></Text>
-                        <Button
-                            onPress={() => {
-                        Fire.shared.signOut();
-                    }}
-                            title="Log out"
-                        />
-                        <Text style={styles.statAmount}></Text>
 
-                        <Button style={styles.b1}
-                                onPress={() => {
-                        Fire.shared.signOut();
-                    }}
-                                title="Edit"
-                        />
+                        <Text style={styles.statAmount}></Text>
+                        
                         <PhotoList isUser={true} userId={this.state.userId} navigation={this.props.navigation}/>
 
                     </React.Fragment>)}

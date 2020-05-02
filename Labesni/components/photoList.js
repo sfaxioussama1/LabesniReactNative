@@ -163,7 +163,7 @@ class PhotoList extends React.Component {
                         <View style={{ flex: 1 }}>
                          <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
                          <View>
-                          <TouchableOpacity onPress={() => this.props.navigation.navigate('Profile',{userId: item.authorId })}   >
+                          <TouchableOpacity onPress={() => this.props.navigation.navigate('userprofil',{userId: item.authorId })}   >
                          <Text style={styles.name}>{item.authorUsername}</Text>
                          </TouchableOpacity>
                           <Text style={styles.timestamp}>{item.posted}</Text>
