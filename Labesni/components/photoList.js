@@ -9,7 +9,8 @@ class PhotoList extends React.Component {
         this.state = {
             photo_feed: [],
             refresh: false,
-            loading: true
+            loading: true,
+            idididuser : f.auth().currentUser.uid
         }
     }
 
@@ -129,6 +130,16 @@ class PhotoList extends React.Component {
         this.loadFeed();
     };
 
+    del = (id1,id) =>{
+          let ttest = database.ref('photos').child(id);
+          ttest.remove();
+          let ttest10=database.ref('users').child(id1).child('photos').child(id);
+          ttest10.remove();
+          alert('Bien Supprimer');
+    
+   
+   } ;
+
 
     render() {
         // LayoutAnimation.easeInEaseOut();
@@ -168,7 +179,7 @@ class PhotoList extends React.Component {
                          </TouchableOpacity>
                           <Text style={styles.timestamp}>{item.posted}</Text>
                           </View>
-                           <Ionicons name="ios-more" size={24} color="#73788B"/>
+                 
                            </View>
                            <Text style={styles.post}>{item.caption}</Text>
                            <Image source={{uri:item.url}} style={styles.postImage} resizeMode="cover"/>
@@ -176,7 +187,14 @@ class PhotoList extends React.Component {
                             <TouchableOpacity onPress={() => this.props.navigation.navigate('Message',{photoId: item.id })}   >
 
                              <Ionicons name="ios-chatboxes" size={35} color="#73788B"/>
+
+
                            </TouchableOpacity>
+                             {this.state.idididuser == item.authorId &&
+                              <TouchableOpacity onPress={()=> this.del(item.authorId,item.id)}  >
+                           <Ionicons name="ios-trash" size={35} color="#73788B" style={{marginLeft:40}} />
+                            </TouchableOpacity>
+                            }
                              </View>
                              </View>
                               </View>
