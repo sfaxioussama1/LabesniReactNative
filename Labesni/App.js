@@ -15,6 +15,7 @@ import Commentss from "./screens/Comments";
 import PostScreen from "./screens/PostScreen";
 import NotificationScreen from "./screens/NotificationScreen";
 import ProfileScreen from "./screens/ProfileScreen";
+import UserProfil from "./screens/UserProfil";
 import * as firebase from 'firebase';
 import {decode, encode} from 'base-64'
 
@@ -125,6 +126,12 @@ const AuthStack = createStackNavigator({
     }
 );
 
+const UsProfil =  createStackNavigator({
+   userprofil:UserProfil
+
+
+});
+
 const Comm = createStackNavigator({
     comments: Commentss
 
@@ -142,7 +149,8 @@ export default createAppContainer(
             comments:Comm,
             // loading: HomeScreen,
             App: AppContainer,
-            Auth: AuthStack
+            Auth: AuthStack,
+            Usp:UsProfil
 
         },
         {
