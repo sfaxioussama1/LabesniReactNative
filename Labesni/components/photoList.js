@@ -82,6 +82,7 @@ class PhotoList extends React.Component {
             photo_feed.push({
                 id: photo,
                 url: photoObjt.url,
+                prix: photoObjt.prix,
                 caption: photoObjt.caption,
                 posted: that.timeConverter(photoObjt.posted),
                 authorUsername: data.username,
@@ -181,6 +182,7 @@ class PhotoList extends React.Component {
                           </View>
                  
                            </View>
+                             <Text style={styles.post1}>{item.prix} TND</Text>
                            <Text style={styles.post}>{item.caption}</Text>
                            <Image source={{uri:item.url}} style={styles.postImage} resizeMode="cover"/>
                            <View style={{ flexDirection: "row" }}>
@@ -268,7 +270,14 @@ const styles = StyleSheet.create({
         height: 150,
         borderRadius: 5,
         marginVertical: 16
-    }
+    },
+    post1 : {
+      fontSize: 20,
+        color: "#FF0000",
+     
+   
+        
+	},
 });
 
 export default PhotoList;

@@ -14,6 +14,7 @@ export default class PostScreen extends React.Component {
             imageId: this.uniqueId(),
             imageSelected: false,
             uploading: false,
+            prix: '',
             caption: '',
             progress: 0
 
@@ -77,11 +78,11 @@ export default class PostScreen extends React.Component {
 
     uploadPublish = () => {
         if (this.state.uploading == false) {
-            if (this.state.caption != '') {
+            if ((this.state.caption != '') && (this.state.prix!='')){
                 this.uploadImage(this.state.uri);
 
             } else {
-                alert('brabi da5el text');
+                alert('brabi da5el text ou prix');
             }
         } else {
             console.log('ignore button')
@@ -139,6 +140,8 @@ export default class PostScreen extends React.Component {
         var imageId = this.state.imageId;
         var userId = f.auth().currentUser.uid;
 
+        var prix = this.state.prix;
+
         var caption = this.state.caption;
 
         var dateTime = Date.now();
@@ -147,6 +150,7 @@ export default class PostScreen extends React.Component {
 
         var photoObj = {
             author: userId,
+            prix:prix,
             caption: caption,
             posted: timestamp,
             url: imageUrl
@@ -161,6 +165,7 @@ export default class PostScreen extends React.Component {
         this.setState({
             uploading: false,
             imageSelected : false,
+            prix:'',
             caption: '',
             uri:''
 
@@ -182,8 +187,18 @@ export default class PostScreen extends React.Component {
                             <Text style={styles.headerTitle}>Upload</Text>
 
                         </View>
+
+
                         <View style={{padding:5}}>
-                            <Text style={{marginTop : 5}}>Text:</Text>
+                            <Text style={{marginTop : 5}}>Prix :</Text>
+                                               <TextInput
+                            style={styles.input}
+                            autoCapitalize="none"
+                            onChangeText={(text) => this.setState({ prix:text })} value={this.state.prix}
+                            value={this.state.prix}
+                            keyboardType={'numeric'}
+                        />
+                            <Text style={{marginTop : 9}}>Description :</Text>
                             <TextInput
                                 editable={true}
                                 autoFocus={true}
@@ -242,6 +257,13 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         justifyContent: "center"
+    },
+        input: {
+        borderBottomColor: "#8A8F9E",
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        height: 40,
+        fontSize: 15,
+        color: "#161F3D"
     },
     header: {
         paddingTop: 64,
