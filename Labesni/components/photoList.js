@@ -142,6 +142,13 @@ class PhotoList extends React.Component {
    } ;
 
 
+   achterproduit = (i1,i2,prix,text,url) => {
+   
+
+
+   };
+
+
     render() {
         // LayoutAnimation.easeInEaseOut();
 
@@ -182,10 +189,17 @@ class PhotoList extends React.Component {
                           </View>
                  
                            </View>
-                             <Text style={styles.post1}>{item.prix} TND</Text>
+                             <Text style={styles.post1}>{item.prix} DT</Text>
                            <Text style={styles.post}>{item.caption}</Text>
                            <Image source={{uri:item.url}} style={styles.postImage} resizeMode="cover"/>
-                           <View style={{ flexDirection: "row" }}>
+                            {this.state.idididuser != item.authorId &&
+
+                         <TouchableOpacity onPress={()=> this.achterproduit(item.authorId,item.id,item.prix,item.caption,item.url)}
+                                              style={{alignSelf:'center', width:170,marginHorizontal:'auto', backgroundColor:'#FD2768', borderRadius:5, paddingVertical:8, paddingHorizontal:10}}>
+                                <Text style={{textAlign:'center', color:'white'}}>Acheter</Text>
+                            </TouchableOpacity>
+                             }
+                           <View style={{ flexDirection: "row" ,marginTop:20}}>
                             <TouchableOpacity onPress={() => this.props.navigation.navigate('Message',{photoId: item.id })}   >
 
                              <Ionicons name="ios-chatboxes" size={35} color="#73788B"/>
