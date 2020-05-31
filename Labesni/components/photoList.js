@@ -142,7 +142,41 @@ class PhotoList extends React.Component {
    } ;
 
 
+      s4 = () => {
+        return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+
+    };
+
+
+    uniqueId = () => {
+        return this.s4() + this.s4() + '-' + this.s4() + '-' + this.s4() + '-' +
+            this.s4() + '-' + this.s4() + '-' + this.s4() + '-' + this.s4() + '-'
+    };
+
+
    achterproduit = (i1,i2,prix,text,url) => {
+   var moulaproduit = i1;
+   var iliyechri = f.auth().currentUser.uid;;
+   var prix = prix ;
+   var textproduit = text;
+   var image = url;
+   var idduniquess = this.uniqueId();
+     var uObj = {
+                 moulaproduit: moulaproduit,
+                 iliyechri: iliyechri,
+                 prix,prix,
+                 textproduit:textproduit,
+                 image:image};
+                 database.ref('/achat/'+idduniquess).set(uObj); 
+                 alert("achat bien enregister")
+
+
+               
+
+
+
    
 
 
