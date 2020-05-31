@@ -170,7 +170,7 @@ class PhotoList extends React.Component {
                  textproduit:textproduit,
                  image:image};
                  database.ref('/achat/'+idduniquess).set(uObj); 
-                 alert("achat bien enregister")
+                 alert("achat bien enregister le prix est : "+prix+" DT + 8 DT Livrasion ");
 
 
                
