@@ -83,6 +83,7 @@ class PhotoList extends React.Component {
                 id: photo,
                 url: photoObjt.url,
                 prix: photoObjt.prix,
+                tel : data.tel,
                 caption: photoObjt.caption,
                 posted: that.timeConverter(photoObjt.posted),
                 authorUsername: data.username,
@@ -156,16 +157,21 @@ class PhotoList extends React.Component {
     };
 
 
-   achterproduit = (i1,i2,prix,text,url) => {
+   achterproduit = (i1,i2,prix,text,url,tel) => {
    var moulaproduit = i1;
-   var iliyechri = f.auth().currentUser.uid;;
+   var telmoulaproduit = tel;
+   var iliyechri = f.auth().currentUser.uid;
+
    var prix = prix ;
    var textproduit = text;
+
    var image = url;
    var idduniquess = this.uniqueId();
      var uObj = {
                  moulaproduit: moulaproduit,
+                 telmoulaproduit : telmoulaproduit,
                  iliyechri: iliyechri,
+               
                  prix,prix,
                  textproduit:textproduit,
                  image:image};
@@ -228,7 +234,7 @@ class PhotoList extends React.Component {
                            <Image source={{uri:item.url}} style={styles.postImage} resizeMode="cover"/>
                             {this.state.idididuser != item.authorId &&
 
-                         <TouchableOpacity onPress={()=> this.achterproduit(item.authorId,item.id,item.prix,item.caption,item.url)}
+                         <TouchableOpacity onPress={()=> this.achterproduit(item.authorId,item.id,item.prix,item.caption,item.url,item.tel)}
                                               style={{alignSelf:'center', width:170,marginHorizontal:'auto', backgroundColor:'#FD2768', borderRadius:5, paddingVertical:8, paddingHorizontal:10}}>
                                 <Text style={{textAlign:'center', color:'white'}}>Acheter</Text>
                             </TouchableOpacity>

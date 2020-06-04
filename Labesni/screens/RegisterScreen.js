@@ -17,6 +17,7 @@ export default class RegisterScreen extends React.Component {
         this.state = {
             name: "",
             username:"",
+            tel : "",
             email: "",
             password: "",
             moveScreen: false,
@@ -35,10 +36,11 @@ export default class RegisterScreen extends React.Component {
     //     errorMessage: null
     // };
 
-    creeateUserObj = (userObj, email,username,name)=> {
+    creeateUserObj = (userObj, email,username,name,tel)=> {
         var uObj = {
             name: name,
             username: username,
+            tel:tel,
             avatar: 'http://www.gravatar.com/avatar',
             email: email
         };
@@ -51,13 +53,14 @@ export default class RegisterScreen extends React.Component {
         var email = this.state.email;
         var username = this.state.username;
         var name = this.state.name;
+        var tel = this.state.tel;
         var password = this.state.password;
         if (email != '' && password != '') {
 
 
             try {
                 let user = await auth.createUserWithEmailAndPassword(email, password)
-                    .then((userObj) => this.creeateUserObj(userObj.user, email,username,name))
+                    .then((userObj) => this.creeateUserObj(userObj.user, email,username,name,tel))
                     .catch((error) => alert(error));
 
             } catch (error) {
@@ -132,6 +135,16 @@ export default class RegisterScreen extends React.Component {
                             ></TextInput>
                         </View>
 
+                           <View>
+                            <Text style={styles.inputTitle}>Phone number</Text>
+                            <TextInput
+                                style={styles.input}
+                                onChangeText={(text) => this.setState({ tel:text })} value={this.state.tel}
+                                value={this.state.tel}
+                                 keyboardType={'numeric'}
+                            ></TextInput>
+                        </View>
+
                     <View style={{ marginTop: 32 }}>
                         <Text style={styles.inputTitle}>Email Address</Text>
                         <TextInput
@@ -177,7 +190,7 @@ const styles = StyleSheet.create({
 
     },
     greeting: {
-        marginTop: 32,
+        marginTop: 25,
         fontSize: 18,
         fontWeight: "400",
         textAlign: "center"
@@ -189,7 +202,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 30
     },
     form: {
-        marginTop: 90,
+        marginTop: 85,
         marginBottom: 38,
         marginHorizontal: 30
     },
