@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
+    "\\components",
     "\\screens"
   ],
-  "SelectedNode": "\\.gitignore",
+  "SelectedNode": "\\screens\\PostScreen.js",
   "PreviewInSolutionExplorer": false
 }

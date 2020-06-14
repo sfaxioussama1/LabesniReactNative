@@ -82,6 +82,8 @@ class PhotoList extends React.Component {
             photo_feed.push({
                 id: photo,
                 url: photoObjt.url,
+                prix: photoObjt.prix,
+                tel : data.tel,
                 caption: photoObjt.caption,
                 posted: that.timeConverter(photoObjt.posted),
                 authorUsername: data.username,
@@ -141,6 +143,52 @@ class PhotoList extends React.Component {
    } ;
 
 
+      s4 = () => {
+        return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+
+    };
+
+
+    uniqueId = () => {
+        return this.s4() + this.s4() + '-' + this.s4() + '-' + this.s4() + '-' +
+            this.s4() + '-' + this.s4() + '-' + this.s4() + '-' + this.s4() + '-'
+    };
+
+
+   achterproduit = (i1,i2,prix,text,url,tel) => {
+   var moulaproduit = i1;
+   var telmoulaproduit = tel;
+   var iliyechri = f.auth().currentUser.uid;
+
+   var prix = prix ;
+   var textproduit = text;
+
+   var image = url;
+   var idduniquess = this.uniqueId();
+     var uObj = {
+                 moulaproduit: moulaproduit,
+                 telmoulaproduit : telmoulaproduit,
+                 iliyechri: iliyechri,
+               
+                 prix,prix,
+                 textproduit:textproduit,
+                 image:image};
+                 database.ref('/achat/'+idduniquess).set(uObj); 
+                 alert("achat bien enregister le prix est : "+prix+" DT + 8 DT Livrasion ");
+
+
+               
+
+
+
+   
+
+
+   };
+
+
     render() {
         // LayoutAnimation.easeInEaseOut();
 
@@ -181,9 +229,17 @@ class PhotoList extends React.Component {
                           </View>
                  
                            </View>
+                             <Text style={styles.post1}>{item.prix} DT</Text>
                            <Text style={styles.post}>{item.caption}</Text>
                            <Image source={{uri:item.url}} style={styles.postImage} resizeMode="cover"/>
-                           <View style={{ flexDirection: "row" }}>
+                            {this.state.idididuser != item.authorId &&
+
+                         <TouchableOpacity onPress={()=> this.achterproduit(item.authorId,item.id,item.prix,item.caption,item.url,item.tel)}
+                                              style={{alignSelf:'center', width:170,marginHorizontal:'auto', backgroundColor:'#FD2768', borderRadius:5, paddingVertical:8, paddingHorizontal:10}}>
+                                <Text style={{textAlign:'center', color:'white'}}>Acheter</Text>
+                            </TouchableOpacity>
+                             }
+                           <View style={{ flexDirection: "row" ,marginTop:20}}>
                             <TouchableOpacity onPress={() => this.props.navigation.navigate('Message',{photoId: item.id })}   >
 
                              <Ionicons name="ios-chatboxes" size={35} color="#73788B"/>
@@ -268,7 +324,14 @@ const styles = StyleSheet.create({
         height: 150,
         borderRadius: 5,
         marginVertical: 16
-    }
+    },
+    post1 : {
+      fontSize: 20,
+        color: "#FF0000",
+     
+   
+        
+	},
 });
 
 export default PhotoList;
